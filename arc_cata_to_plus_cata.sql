@@ -2,6 +2,20 @@
 SET @source_db = 'your_arcturus_db';
 SET @destination_db = 'your_plus_db';
 
+-- Create a backup of the destination table
+SET @timestamp = UNIX_TIMESTAMP();
+SET @backup_table = CONCAT('catalog_pages_backup_', @timestamp);
+
+SET @clone_sql = CONCAT('CREATE TABLE ', @destination_db, '.', @backup_table, ' LIKE ', @destination_db, '.catalog_pages;');
+PREPARE clone_stmt FROM @clone_sql;
+EXECUTE clone_stmt;
+DEALLOCATE PREPARE clone_stmt;
+
+SET @copy_data_sql = CONCAT('INSERT INTO ', @destination_db, '.', @backup_table, ' SELECT * FROM ', @destination_db, '.catalog_pages;');
+PREPARE copy_data_stmt FROM @copy_data_sql;
+EXECUTE copy_data_stmt;
+DEALLOCATE PREPARE copy_data_stmt;
+
 SET @truncate_sql = CONCAT('TRUNCATE TABLE ', @destination_db, '.catalog_pages;');
 PREPARE truncate_stmt FROM @truncate_sql;
 EXECUTE truncate_stmt;
