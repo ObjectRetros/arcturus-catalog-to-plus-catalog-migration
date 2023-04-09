@@ -6,7 +6,7 @@ It has been tested migrating a catalog from Arcturus MS to Plus++ emulator.
 This script was mostly written by Chat-GPT 🙏 and is purely released as there's no good public catalog for Plus emulator available, so in-case you're looking to start a hotel with Plus emulator, you might find this handy.
 
 **Important** 
-Do not forgert to backup your database before running this script, by using it you achknowledge it's on your own responsibility.
+Do not forget to backup your database before running this script, by using it you achknowledge it's on your own responsibility.
 
 **How to use**
 When you want to migrate your Arcturus MS catalog to Plus structure, you must open the file and at the very top you'll see:
