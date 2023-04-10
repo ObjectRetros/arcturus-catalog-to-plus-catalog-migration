@@ -166,6 +166,11 @@ PREPARE truncate_stmt FROM @truncate_sql;
 EXECUTE truncate_stmt;
 DEALLOCATE PREPARE truncate_stmt;
 
+SET @alter_sql = CONCAT('ALTER TABLE ', @destination_db, '.catalog_items MODIFY COLUMN item_id VARCHAR(255);');
+PREPARE alter_stmt FROM @alter_sql;
+EXECUTE alter_stmt;
+DEALLOCATE PREPARE alter_stmt;
+
 -- Migrate data
 SET @migrate_sql = CONCAT('
     INSERT INTO ', @destination_db, '.catalog_items
@@ -219,3 +224,80 @@ SET @migrate_sql = CONCAT('
 PREPARE migrate_stmt FROM @migrate_sql;
 EXECUTE migrate_stmt;
 DEALLOCATE PREPARE migrate_stmt;
+
+SET @update_height_adjustable_sql = CONCAT('
+    UPDATE
+        ', @destination_db, '.furniture
+    SET
+        height_adjustable = REPLACE(height_adjustable, ";", ",")
+    WHERE
+        height_adjustable LIKE "%;%";
+');
+
+SET @update_item_id_sql = CONCAT('
+    UPDATE
+        ', @destination_db, '.catalog_items
+    SET
+        item_id = SUBSTRING_INDEX(item_id, ";", 1)
+    WHERE
+        item_id LIKE "%;%";
+');
+
+PREPARE update_item_id_stmt FROM @update_item_id_sql;
+EXECUTE update_item_id_stmt;
+DEALLOCATE PREPARE update_item_id_stmt;
+
+
+PREPARE update_height_adjustable_stmt FROM @update_height_adjustable_sql;
+EXECUTE update_height_adjustable_stmt;
+DEALLOCATE PREPARE update_height_adjustable_stmt;
+
+SET @update_height_adjustable_sql = CONCAT('
+    UPDATE
+        ', @destination_db, '.furniture
+    SET
+        height_adjustable = REPLACE(height_adjustable, " ", "")
+    WHERE
+        height_adjustable LIKE "% %";
+');
+
+PREPARE update_height_adjustable_stmt FROM @update_height_adjustable_sql;
+EXECUTE update_height_adjustable_stmt;
+DEALLOCATE PREPARE update_height_adjustable_stmt;
+
+SET @update_item_id_sql = CONCAT('
+    UPDATE
+        ', @destination_db, '.catalog_items
+    SET
+        item_id = SUBSTRING_INDEX(item_id, ";", 1)
+    WHERE
+        item_id LIKE "%;%";
+');
+
+SET @update_item_id_sql = CONCAT('
+    UPDATE
+        ', @destination_db, '.catalog_items
+    SET
+        item_id = SUBSTRING_INDEX(item_id, ":", 1)
+    WHERE
+        item_id LIKE "%:%";
+');
+
+PREPARE update_item_id_stmt FROM @update_item_id_sql;
+EXECUTE update_item_id_stmt;
+DEALLOCATE PREPARE update_item_id_stmt;
+
+PREPARE update_item_id_stmt FROM @update_item_id_sql;
+EXECUTE update_item_id_stmt;
+DEALLOCATE PREPARE update_item_id_stmt;
+
+SET @delete_no_match_sql = CONCAT('
+    DELETE FROM
+        ', @destination_db, '.catalog_items
+    WHERE
+        item_id NOT IN (SELECT id FROM ', @destination_db, '.furniture);
+');
+
+PREPARE delete_no_match_stmt FROM @delete_no_match_sql;
+EXECUTE delete_no_match_stmt;
+DEALLOCATE PREPARE delete_no_match_stmt;
