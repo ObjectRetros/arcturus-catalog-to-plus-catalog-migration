@@ -2,7 +2,7 @@
 
 **Disclaimer**
 
-Atom CMS is purely an educational project. I am not responsible for how or where Atom CMS is being used.
+The migration script is purely an educational project. I am not responsible for how or where the migration script is being used.
 
 **What is this?**
 
