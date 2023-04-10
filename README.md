@@ -1,4 +1,11 @@
 # Arcturus Catalog to Plus Catalog migration
+
+**Disclaimer**
+
+Atom CMS is purely an educational project. I am not responsible for how or where Atom CMS is being used.
+
+**What is this?**
+
 This script will convert your catalog from Arcturus MS catalog to Plus emulator structure.
 
 It has been tested migrating a catalog from Arcturus MS to Plus++ emulator.
