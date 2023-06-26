@@ -2,7 +2,7 @@
 
 **Disclaimer**
 
-The migration script is purely an educational project. I am not responsible for how or where the migration script is being used.
+The migration script is purely an educational project. I am not responsible for how or where the migration script is being used. It is also also a Work In Progress.
 
 **What is this?**
 
