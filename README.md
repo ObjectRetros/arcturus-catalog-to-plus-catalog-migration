@@ -4,6 +4,8 @@
 
 The migration script is purely an educational project. I am not responsible for how or where the migration script is being used. It is also also a Work In Progress.
 
+It was never truly finished, but it can do most of the work for you - feel free to use it for anything of your liking.
+
 **What is this?**
 
 This script will convert your catalog from Arcturus MS catalog to Plus emulator structure.
